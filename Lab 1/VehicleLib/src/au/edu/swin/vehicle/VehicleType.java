@@ -43,4 +43,8 @@ public class VehicleType {
     public void setSeats(Integer seats) {
         this.seats = seats;
     }
+    
+    public String toString() {
+        return this.code;
+    }
 }
