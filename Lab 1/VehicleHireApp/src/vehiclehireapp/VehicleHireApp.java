@@ -43,7 +43,7 @@ public class VehicleHireApp {
         for (Vehicle vehicle : vehicles) {
             System.out.println(vehicle);
         }
-        String typeCode = args[0];
+        String typeCode = vehicleTypes.get(0).getCode();
         System.out.println("\n\nList of vehicle of type " + typeCode);
         for (Vehicle vehicle : vehicles) {
             if (vehicle.getType().getCode().equals(typeCode)) {
@@ -54,7 +54,7 @@ public class VehicleHireApp {
         System.out.println("\n\nIt will display a list of the vehicle based on the type that you choose");
 
         // generate list of options that can be chosen from
-        ArrayList<Object> options = new ArrayList<>(List.copyOf(vehicleTypes));
+        ArrayList<Object> options = new ArrayList<>(vehicleTypes);
         options.add("Exit");
         
         // create the option selector which handles choosing the option
