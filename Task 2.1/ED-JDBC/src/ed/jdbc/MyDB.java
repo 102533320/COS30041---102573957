@@ -181,6 +181,7 @@ public class MyDB {
         // cannot create an existing record
         if (getRecord(myuser.getUserid()) == null) return false;
 
+        // perform insertion of a single record
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
 
@@ -222,6 +223,64 @@ public class MyDB {
             }
         }
         
-        return false;
+        return true;
+    }
+
+    boolean updateRecord(MyUser myuser){
+        // cannot update an non-existent record
+        if (getRecord(myuser.getUserid()) == null) return false;
+
+        // perform updates of the record
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+
+        try {
+            cnnct = getConnection();
+            String preQueryStatement =    "UPDATE MYUSER SET"
+                                        + "NAME = ?"
+                                        + "PASSWORD = ?"
+                                        + "EMAIL = ?"
+                                        + "PHONE = ?"
+                                        + "ADDRESS = ?"
+                                        + "SECQN = ?"
+                                        + "SECANS = ?"
+                                        + "WHERE USERID = ?";
+
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setString(1, myuser.getName());
+            pStmnt.setString(2, myuser.getPassword());
+            pStmnt.setString(3, myuser.getEmail());
+            pStmnt.setString(4, myuser.getPhone());
+            pStmnt.setString(5, myuser.getAddress());
+            pStmnt.setString(6, myuser.getSecQn());
+            pStmnt.setString(7, myuser.getSecAns());
+            pStmnt.setString(8, myuser.getUserid());
+            int rowCount = pStmnt.executeUpdate();
+            if (rowCount == 0) {
+                throw new SQLException("Cannot insert record!");
+            }
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (pStmnt != null) {
+                try {
+                    pStmnt.close();
+                } catch (SQLException e) {
+                }
+            }
+            if (cnnct != null) {
+                try {
+                    cnnct.close();
+                } catch (SQLException sqlEx) {
+                }
+            }
+        }
+
+        return true;
     }
 }
