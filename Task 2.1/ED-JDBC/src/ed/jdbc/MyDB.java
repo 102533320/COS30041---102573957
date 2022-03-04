@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -96,8 +97,7 @@ public class MyDB {
 
         try {
             cnnct = getConnection();
-            String preQueryStatement
-                    = "INSERT INTO MYUSER VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String preQueryStatement = "INSERT INTO MYUSER VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             for (MyUser myuser : myUsers) {
                 pStmnt.setString(1, myuser.getUserid());
@@ -134,5 +134,94 @@ public class MyDB {
                 }
             }
         }
+    }
+
+    public MyUser getRecord(String userid){
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        MyUser found = null;
+
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT * FROM MYUSER WHERE USERID = ?";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setString(1, userid);
+            ResultSet rs = pStmnt.executeQuery();
+            ArrayList<MyUser> mappedResultSet = MyUser.fromResultSetCollection(rs);
+            if (mappedResultSet.size() > 0){
+                found = mappedResultSet.get(0);
+            }
+
+        }catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (pStmnt != null) {
+                try {
+                    pStmnt.close();
+                } catch (SQLException e) {
+                }
+            }
+            if (cnnct != null) {
+                try {
+                    cnnct.close();
+                } catch (SQLException sqlEx) {
+                }
+            }
+        }
+
+        return found;
+    }
+
+    public boolean createRecord(MyUser myuser){
+        // cannot create an existing record
+        if (getRecord(myuser.getUserid()) == null) return false;
+
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "INSERT INTO MYUSER VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setString(1, myuser.getUserid());
+            pStmnt.setString(2, myuser.getName());
+            pStmnt.setString(3, myuser.getPassword());
+            pStmnt.setString(4, myuser.getEmail());
+            pStmnt.setString(5, myuser.getPhone());
+            pStmnt.setString(6, myuser.getAddress());
+            pStmnt.setString(7, myuser.getSecQn());
+            pStmnt.setString(8, myuser.getSecAns());
+            int rowCount = pStmnt.executeUpdate();
+            if (rowCount == 0) {
+                throw new SQLException("Cannot insert record!");
+            }
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (pStmnt != null) {
+                try {
+                    pStmnt.close();
+                } catch (SQLException e) {
+                }
+            }
+            if (cnnct != null) {
+                try {
+                    cnnct.close();
+                } catch (SQLException sqlEx) {
+                }
+            }
+        }
+        
+        return false;
     }
 }

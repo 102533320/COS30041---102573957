@@ -4,6 +4,7 @@
  */
 package ed.jdbc;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 /**
@@ -40,6 +41,11 @@ public class SetUpMyUser {
         mydb.createMyuserTable();
         ArrayList<MyUser> aList = prepareMyuserData();
         mydb.addRecords(aList);
+
+        MyUser test = mydb.getRecord("0000awdwad03");
+        MyUser test1 = mydb.getRecord("000004");
+
+        
     }
 
 }

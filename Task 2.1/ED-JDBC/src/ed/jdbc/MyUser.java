@@ -4,6 +4,9 @@
  */
 package ed.jdbc;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
+
 /**
  *
  * @author Matt
@@ -92,5 +95,35 @@ public class MyUser {
 
     public void setSecAns(String secAns) {
         this.secAns = secAns;
+    }
+
+    public static MyUser fromResultSet(ResultSet rs){
+        try {
+            return new MyUser(
+                rs.getString("userid"),
+                rs.getString("name"),
+                rs.getString("password"),
+                rs.getString("email"),
+                rs.getString("phone"),
+                rs.getString("address"),
+                rs.getString("secQn"),
+                rs.getString("secAns")
+            );
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public static ArrayList<MyUser> fromResultSetCollection(ResultSet rs){
+        ArrayList<MyUser> mapped = new ArrayList<MyUser>();
+        try {
+            while (rs.next()) {
+                mapped.add(fromResultSet(rs));
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return mapped;
     }
 }
