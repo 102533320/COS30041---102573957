@@ -136,7 +136,7 @@ public class MyDB {
         }
     }
 
-    public MyUser getRecord(String userid){
+    public MyUser getRecord(String userid) {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
         MyUser found = null;
@@ -148,11 +148,11 @@ public class MyDB {
             pStmnt.setString(1, userid);
             ResultSet rs = pStmnt.executeQuery();
             ArrayList<MyUser> mappedResultSet = MyUser.fromResultSetCollection(rs);
-            if (mappedResultSet.size() > 0){
+            if (mappedResultSet.size() > 0) {
                 found = mappedResultSet.get(0);
             }
 
-        }catch (SQLException ex) {
+        } catch (SQLException ex) {
             while (ex != null) {
                 ex.printStackTrace();
                 ex = ex.getNextException();
@@ -177,13 +177,16 @@ public class MyDB {
         return found;
     }
 
-    public boolean createRecord(MyUser myuser){
+    public boolean createRecord(MyUser myuser) {
         // cannot create an existing record
-        if (getRecord(myuser.getUserid()) != null) return false;
+        if (getRecord(myuser.getUserid()) != null) {
+            return false;
+        }
 
         // perform insertion of a single record
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
+        int rowCount = 0;
 
         try {
             cnnct = getConnection();
@@ -197,7 +200,7 @@ public class MyDB {
             pStmnt.setString(6, myuser.getAddress());
             pStmnt.setString(7, myuser.getSecQn());
             pStmnt.setString(8, myuser.getSecAns());
-            int rowCount = pStmnt.executeUpdate();
+            rowCount = pStmnt.executeUpdate();
             if (rowCount == 0) {
                 throw new SQLException("Cannot insert record!");
             } else {
@@ -224,17 +227,19 @@ public class MyDB {
                 }
             }
         }
-        
-        return false;
+        return rowCount == 0 ? false : true;
     }
 
-    boolean updateRecord(MyUser myuser){
+    boolean updateRecord(MyUser myuser) {
         // cannot update an non-existent record
-        if (getRecord(myuser.getUserid()) == null) return false;
+        if (getRecord(myuser.getUserid()) == null) {
+            return false;
+        }
 
         // perform updates of the record
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
+        int rowCount = 0;
 
         try {
             cnnct = getConnection();
@@ -249,7 +254,7 @@ public class MyDB {
             pStmnt.setString(6, myuser.getSecQn());
             pStmnt.setString(7, myuser.getSecAns());
             pStmnt.setString(8, myuser.getUserid());
-            int rowCount = pStmnt.executeUpdate();
+            rowCount = pStmnt.executeUpdate();
             if (rowCount == 0) {
                 throw new SQLException("Cannot update record!");
             }
@@ -275,25 +280,27 @@ public class MyDB {
             }
         }
 
-        return true;
+        return rowCount == 0 ? false : true;
     }
 
-    boolean deleteRecord(String userid){
+    boolean deleteRecord(String userid) {
         // cannot delete an non-existent record
-        if (getRecord(userid) == null) return false;
+        if (getRecord(userid) == null) {
+            return false;
+        }
 
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
+        boolean deleted = false;
 
         try {
             cnnct = getConnection();
             String preQueryStatement = "DELETE FROM MYUSER WHERE USERID = ?";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             pStmnt.setString(1, userid);
-            boolean rs = pStmnt.execute();
-            return rs;
+            deleted = pStmnt.execute();
 
-        }catch (SQLException ex) {
+        } catch (SQLException ex) {
             while (ex != null) {
                 ex.printStackTrace();
                 ex = ex.getNextException();
@@ -315,6 +322,6 @@ public class MyDB {
             }
         }
 
-        return true;
+        return deleted;
     }
 }
