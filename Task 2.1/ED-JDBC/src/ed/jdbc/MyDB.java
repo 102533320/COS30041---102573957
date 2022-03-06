@@ -179,7 +179,7 @@ public class MyDB {
 
     public boolean createRecord(MyUser myuser){
         // cannot create an existing record
-        if (getRecord(myuser.getUserid()) == null) return false;
+        if (getRecord(myuser.getUserid()) != null) return false;
 
         // perform insertion of a single record
         Connection cnnct = null;
@@ -200,6 +200,8 @@ public class MyDB {
             int rowCount = pStmnt.executeUpdate();
             if (rowCount == 0) {
                 throw new SQLException("Cannot insert record!");
+            } else {
+                return true;
             }
         } catch (SQLException ex) {
             while (ex != null) {
@@ -223,7 +225,7 @@ public class MyDB {
             }
         }
         
-        return true;
+        return false;
     }
 
     boolean updateRecord(MyUser myuser){
@@ -236,15 +238,7 @@ public class MyDB {
 
         try {
             cnnct = getConnection();
-            String preQueryStatement =    "UPDATE MYUSER SET"
-                                        + "NAME = ?"
-                                        + "PASSWORD = ?"
-                                        + "EMAIL = ?"
-                                        + "PHONE = ?"
-                                        + "ADDRESS = ?"
-                                        + "SECQN = ?"
-                                        + "SECANS = ?"
-                                        + "WHERE USERID = ?";
+            String preQueryStatement = "UPDATE MYUSER SET NAME = ?,PASSWORD = ?,EMAIL = ?,PHONE = ?,ADDRESS = ?,SECQN = ?,SECANS = ? WHERE USERID = ?";
 
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             pStmnt.setString(1, myuser.getName());
@@ -257,9 +251,49 @@ public class MyDB {
             pStmnt.setString(8, myuser.getUserid());
             int rowCount = pStmnt.executeUpdate();
             if (rowCount == 0) {
-                throw new SQLException("Cannot insert record!");
+                throw new SQLException("Cannot update record!");
             }
         } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (pStmnt != null) {
+                try {
+                    pStmnt.close();
+                } catch (SQLException e) {
+                }
+            }
+            if (cnnct != null) {
+                try {
+                    cnnct.close();
+                } catch (SQLException sqlEx) {
+                }
+            }
+        }
+
+        return true;
+    }
+
+    boolean deleteRecord(String userid){
+        // cannot delete an non-existent record
+        if (getRecord(userid) == null) return false;
+
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "DELETE FROM MYUSER WHERE USERID = ?";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setString(1, userid);
+            boolean rs = pStmnt.execute();
+            return rs;
+
+        }catch (SQLException ex) {
             while (ex != null) {
                 ex.printStackTrace();
                 ex = ex.getNextException();
