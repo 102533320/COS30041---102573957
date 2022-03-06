@@ -243,7 +243,8 @@ public class MyDB {
 
         try {
             cnnct = getConnection();
-            String preQueryStatement = "UPDATE MYUSER SET NAME = ?,PASSWORD = ?,EMAIL = ?,PHONE = ?,ADDRESS = ?,SECQN = ?,SECANS = ? WHERE USERID = ?";
+            String preQueryStatement = "UPDATE MYUSER SET NAME = ?,"
+                + "PASSWORD = ?,EMAIL = ?,PHONE = ?,ADDRESS = ?,SECQN = ?,SECANS = ? WHERE USERID = ?";
 
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             pStmnt.setString(1, myuser.getName());

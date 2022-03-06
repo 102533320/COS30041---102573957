@@ -43,8 +43,9 @@ public class SetUpMyUser {
         mydb.addRecords(aList);
 
         // 1. TEST CREATION OF A USER
-        System.out.print("\nRunning test: 1. TEST CREATION OF A USER");
-        MyUser newUser = new MyUser("000006", "Matthew Coulter", "123456", "102573957@student.swin.edu.au", "102573957", "Swinburne EN510f", "What is my name?", "Matt");
+        System.out.println("\nRunning test: 1. TEST CREATION OF A USER");
+        MyUser newUser = new MyUser("000006", "Matthew Coulter", "123456", 
+            "102573957@student.swin.edu.au", "102573957", "Swinburne EN510f", "What is my name?", "Matt");
         boolean userCreated = mydb.createRecord(newUser);
         if (userCreated) {
             System.out.println("\nUser created successfully");
@@ -54,7 +55,7 @@ public class SetUpMyUser {
         }
 
         // 2. TEST FETCHING A USER BY ID
-        System.out.print("\nRunning test: 2. TEST FETCHING A USER BY ID");
+        System.out.println("\nRunning test: 2. TEST FETCHING A USER BY ID");
         MyUser fetchedUser = mydb.getRecord("000006");
         if (fetchedUser == null) {
             System.out.println("\nUser was not fetched successfully");
@@ -64,7 +65,7 @@ public class SetUpMyUser {
         }
 
         // 3. TEST UPDATING A USER
-        System.out.print("\nRunning test: 3. TEST UPDATING A USER");
+        System.out.println("\nRunning test: 3. TEST UPDATING A USER");
         fetchedUser.setName("Matt Coulter");
         mydb.updateRecord(fetchedUser);
 
@@ -78,7 +79,7 @@ public class SetUpMyUser {
         }
 
         // 4. TEST DELETING A USER
-        System.out.print("\nRunning test: 4. TEST DELETING A USER");
+        System.out.println("\nRunning test: 4. TEST DELETING A USER");
         mydb.deleteRecord("000006");
 
         fetchedUser = mydb.getRecord("000006");
