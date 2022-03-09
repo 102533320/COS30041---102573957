@@ -3,7 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Matthew%20Coulter/Documents/Github/COS30041---102573957/Lab%203/ED-JPA/src/MyUserDB.java</file>
+            <file>file:/C:/Users/Matthew%20Coulter/Documents/Github/COS30041---102573957/Lab%203/ED-JPA/src/ed/jpa/MyuserDTO.java</file>
+            <file>file:/C:/Users/Matthew%20Coulter/Documents/Github/COS30041---102573957/Lab%203/ED-JPA/src/ed/jpa/MyuserDB.java</file>
+            <file>file:/C:/Users/Matthew%20Coulter/Documents/Github/COS30041---102573957/Lab%203/ED-JPA/src/ed/jpa/EDJPA.java</file>
+            <file>file:/C:/Users/Matthew%20Coulter/Documents/Github/COS30041---102573957/Lab%203/ED-JPA/src/ed/jpa/MyuserApp.java</file>
         </group>
     </open-files>
 </project-private>
