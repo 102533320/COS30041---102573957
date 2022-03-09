@@ -1,14 +1,31 @@
-Sun Mar 06 13:50:17 AEDT 2022 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
+Wed Mar 09 15:01:30 AEDT 2022 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Sun Mar 06 13:50:18 AEDT 2022:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-017f-5d22-8522-ffffc05fd9e7 
-on database directory D:\Users\Matt\Documents\GitHub\COS30041---102573957\DerbyDatabase\sun-appserv-samples with class loader sun.misc.Launcher$AppClassLoader@5e2de80c 
-Loaded from file:/D:/Users/Matt/Documents/GitHub/COS30041---102573957/glassfish5/javadb/lib/derby.jar
-java.vendor=Temurin
-java.runtime.version=1.8.0_322-b06
-user.dir=D:\Users\Matt\Documents\GitHub\COS30041---102573957\glassfish5\javadb
+Wed Mar 09 15:01:30 AEDT 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-017f-6cd6-ca2c-00001e55e824 
+on database directory C:\Users\Matthew Coulter\Documents\Github\COS30041---102573957\DerbyDatabase\sun-appserv-samples with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@73d16e93 
+Loaded from file:/C:/Users/Matthew%20Coulter/Documents/Github/COS30041---102573957/glassfish5/javadb/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=16.0.2+7-67
+user.dir=C:\Users\Matthew Coulter\Documents\Github\COS30041---102573957\glassfish5\javadb
 os.name=Windows 10
 os.arch=amd64
 os.version=10.0
-derby.system.home=D:\Users\Matt\Documents\GitHub\COS30041---102573957\DerbyDatabase
+derby.system.home=C:\Users\Matthew Coulter\Documents\Github\COS30041---102573957\DerbyDatabase
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Wed Mar 09 15:01:32 AEDT 2022:
+Shutting down instance a816c00e-017f-6cd6-ca2c-00001e55e824 on database directory C:\Users\Matthew Coulter\Documents\Github\COS30041---102573957\DerbyDatabase\sun-appserv-samples with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@73d16e93 
+Wed Mar 09 15:01:32 AEDT 2022 Thread[DRDAConnThread_3,5,main] (DATABASE = sun-appserv-samples), (DRDAID = {2}), Database 'sun-appserv-samples' shutdown.
+----------------------------------------------------------------
+Wed Mar 09 15:01:34 AEDT 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a65c80ac-017f-6cd6-ca2c-00001e55e824 
+on database directory C:\Users\Matthew Coulter\Documents\Github\COS30041---102573957\DerbyDatabase\sun-appserv-samples with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@73d16e93 
+Loaded from file:/C:/Users/Matthew%20Coulter/Documents/Github/COS30041---102573957/glassfish5/javadb/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=16.0.2+7-67
+user.dir=C:\Users\Matthew Coulter\Documents\Github\COS30041---102573957\glassfish5\javadb
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=C:\Users\Matthew Coulter\Documents\Github\COS30041---102573957\DerbyDatabase
 Database Class Loader started - derby.database.classpath=''
