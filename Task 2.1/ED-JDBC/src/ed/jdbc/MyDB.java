@@ -177,9 +177,49 @@ public class MyDB {
         return found;
     }
 
+    public boolean recordExists(String userid) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        MyUser found = null;
+        int rowCount = 0;
+
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT 1 FROM MYUSER WHERE USERID = ?";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setString(1, userid);
+            ResultSet rs = pStmnt.executeQuery();
+            rs.last();
+            rowCount = rs.getRow();
+
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (pStmnt != null) {
+                try {
+                    pStmnt.close();
+                } catch (SQLException e) {
+                }
+            }
+            if (cnnct != null) {
+                try {
+                    cnnct.close();
+                } catch (SQLException sqlEx) {
+                }
+            }
+        }
+
+        return rowCount != 0;
+    }
+
     public boolean createRecord(MyUser myuser) {
         // cannot create an existing record
-        if (getRecord(myuser.getUserid()) != null) {
+        if (recordExists(myuser.getUserid())) {
             return false;
         }
 
@@ -244,7 +284,7 @@ public class MyDB {
         try {
             cnnct = getConnection();
             String preQueryStatement = "UPDATE MYUSER SET NAME = ?,"
-                + "PASSWORD = ?,EMAIL = ?,PHONE = ?,ADDRESS = ?,SECQN = ?,SECANS = ? WHERE USERID = ?";
+                    + "PASSWORD = ?,EMAIL = ?,PHONE = ?,ADDRESS = ?,SECQN = ?,SECANS = ? WHERE USERID = ?";
 
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             pStmnt.setString(1, myuser.getName());
