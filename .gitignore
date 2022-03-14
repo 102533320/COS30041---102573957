@@ -14,11 +14,11 @@
 /Lab 2/ED-JDBC/build/
 /Lab 2 - Copy/ED-JDBC/build/
 /Lab 2 - Copy/ED-JDBC/nbproject/private/
-/Task 2.1/ED-JDBC/build/
-/Task 2.1/ED-JDBC/nbproject/private/
 *.dat
 /3.1P/ED-JPA/nbproject/private/
 /Lab 3/ED-JPA/build/
 /Lab 3/ED-Entity/build/
 /Lab 4/ED-JEE-DTO-RI/nbproject/private/
 /DerbyDatabase
+/3.1P/ED-Entity/dist/
+/2.1P/ED-JDBC/dist/
