@@ -3,12 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/J2EE/EJB30/StatelessEjbClass.java to edit this template
  */
 package session;
-
 import entity.Myuser;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import entity.MyuserDTO;
+import java.util.ArrayList;
 
 /**
  *
@@ -54,6 +54,26 @@ public class MyuserFacade implements MyuserFacadeRemote {
         } catch (Exception ex) {
             return false; // something is wrong, should not be here though
         }
+    }
+
+    @Override
+    public MyuserDTO getRecord(String userId) {
+        return null;
+    }
+
+    @Override
+    public boolean updateRecord(MyuserDTO myuserDTO) {
+        return false;
+    }
+
+    @Override
+    public boolean deleteRecord(String userId) {
+        return false;
+    }
+
+    @Override
+    public ArrayList<MyuserDTO> getRecordsByAddress(String address) {
+        return null;
     }
     
     private Myuser myDTO2DAO(MyuserDTO myuserDTO) {
