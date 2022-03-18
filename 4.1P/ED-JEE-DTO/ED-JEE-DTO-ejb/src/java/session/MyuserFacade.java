@@ -68,16 +68,4 @@ public class MyuserFacade implements MyuserFacadeRemote {
         myuser.setSecans(myuserDTO.getSecAns());
         return myuser;
     }
-    private MyuserDTO myDAO2DTO(Myuser myuser){
-        return new MyuserDTO(
-            myuser.getUserid(), 
-            myuser.getName(), 
-            myuser.getPassword(), 
-            myuser.getEmail(), 
-            myuser.getPhone(), 
-            myuser.getAddress(), 
-            myuser.getSecqn(), 
-            myuser.getSecans()
-        );
-    }
 }
