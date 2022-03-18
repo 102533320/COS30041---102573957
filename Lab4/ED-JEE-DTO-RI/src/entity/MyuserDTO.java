@@ -2,13 +2,24 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+package entity;
+
+import java.io.Serializable;
 
 /**
  *
  * @author Matthew Coulter
  */
-package entity;
-public class MyuserDTO implements java.io.Serializable {
+public class MyuserDTO implements Serializable {
+
+    private final String userid;
+    private final String name;
+    private final String password;
+    private final String email;
+    private final String phone;
+    private final String address;
+    private final String secQn;
+    private final String secAns;
 
     public String getUserid() {
         return userid;
@@ -52,13 +63,4 @@ public class MyuserDTO implements java.io.Serializable {
         this.secQn = secQn;
         this.secAns = secAns;
     }
-
-    private final String userid;
-    private final String name;
-    private final String password;
-    private final String email;
-    private final String phone;
-    private final String address;
-    private final String secQn;
-    private final String secAns;
 }

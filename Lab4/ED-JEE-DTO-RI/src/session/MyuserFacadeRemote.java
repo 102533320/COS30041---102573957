@@ -15,6 +15,5 @@ import javax.ejb.Remote;
 public interface MyuserFacadeRemote {
 
     boolean createRecord(MyuserDTO myuserDTO);
-
-
+    
 }

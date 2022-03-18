@@ -12,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -19,6 +22,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "MYUSER")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Myuser.findAll", query = "SELECT m FROM Myuser m"),
     @NamedQuery(name = "Myuser.findByUserid", query = "SELECT m FROM Myuser m WHERE m.userid = :userid"),
@@ -34,20 +38,31 @@ public class Myuser implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 6)
     @Column(name = "USERID")
     private String userid;
+    @Size(max = 30)
     @Column(name = "NAME")
     private String name;
+    @Size(max = 6)
     @Column(name = "PASSWORD")
     private String password;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    @Size(max = 30)
     @Column(name = "EMAIL")
     private String email;
+    // @Pattern(regexp="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$", message="Invalid phone/fax format, should be as xxx-xxx-xxxx")//if the field contains phone or fax number consider using this annotation to enforce field validation
+    @Size(max = 10)
     @Column(name = "PHONE")
     private String phone;
+    @Size(max = 60)
     @Column(name = "ADDRESS")
     private String address;
+    @Size(max = 60)
     @Column(name = "SECQN")
     private String secqn;
+    @Size(max = 60)
     @Column(name = "SECANS")
     private String secans;
 
@@ -146,5 +161,5 @@ public class Myuser implements Serializable {
     public String toString() {
         return "entity.Myuser[ userid=" + userid + " ]";
     }
-
+    
 }

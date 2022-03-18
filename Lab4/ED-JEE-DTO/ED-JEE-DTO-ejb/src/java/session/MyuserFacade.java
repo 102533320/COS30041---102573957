@@ -5,10 +5,10 @@
 package session;
 
 import entity.Myuser;
-import entity.MyuserDTO;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import entity.MyuserDTO;
 
 /**
  *
@@ -40,15 +40,13 @@ public class MyuserFacade implements MyuserFacadeRemote {
         return em.find(Myuser.class, id);
     }
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
     @Override
     public boolean createRecord(MyuserDTO myuserDTO) {
         if (find(myuserDTO.getUserid()) != null) {
-            // user whose userid can be found
+// user whose userid can be found
             return false;
         }
-        // user whose userid could not be found
+// user whose userid could not be found
         try {
             Myuser myuser = this.myDTO2DAO(myuserDTO);
             this.create(myuser); // add to database
@@ -57,7 +55,7 @@ public class MyuserFacade implements MyuserFacadeRemote {
             return false; // something is wrong, should not be here though
         }
     }
-
+    
     private Myuser myDTO2DAO(MyuserDTO myuserDTO) {
         Myuser myuser = new Myuser();
         myuser.setUserid(myuserDTO.getUserid());

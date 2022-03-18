@@ -48,5 +48,4 @@ public class MyuserAppClient {
     public Boolean createRecord(MyuserDTO myuserDTO) {
         return myuserFacade.createRecord(myuserDTO);
     }
-
 }
