@@ -3,12 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/J2EE/EJB30/StatelessEjbClass.java to edit this template
  */
 package session;
-
 import entity.Myuser;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import entity.MyuserDTO;
+import java.util.ArrayList;
+import javax.persistence.Query;
 
 /**
  *
@@ -42,7 +43,7 @@ public class MyuserFacade implements MyuserFacadeRemote {
 
     @Override
     public boolean createRecord(MyuserDTO myuserDTO) {
-        if (find(myuserDTO.getUserid()) != null) {
+        if (getRecord(myuserDTO.getUserid()) != null) {
 // user whose userid can be found
             return false;
         }
@@ -54,6 +55,54 @@ public class MyuserFacade implements MyuserFacadeRemote {
         } catch (Exception ex) {
             return false; // something is wrong, should not be here though
         }
+    }
+
+    @Override
+    public MyuserDTO getRecord(String userId) {
+        Myuser myuser = find(userId);
+        if(myuser == null) return null;
+        
+        return myDAO2DTO(myuser);
+    }
+
+    @Override
+    public boolean updateRecord(MyuserDTO myuserDTO) {
+        if (getRecord(myuserDTO.getUserid()) == null) return false;
+        
+        Myuser myuser = myDTO2DAO(myuserDTO);
+        try {
+            edit(myuser);
+            return true;
+        } catch(Exception e){
+            return false;
+        }
+    }
+
+    @Override
+    public boolean deleteRecord(String userId) {
+        MyuserDTO myuserDTO = getRecord(userId);
+        if (myuserDTO != null) return false;
+        
+        Myuser myuser = myDTO2DAO(myuserDTO);
+        try {
+            remove(myuser);
+            return true;
+        } catch(Exception e){
+            return false;
+        }
+    }
+
+    @Override
+    public ArrayList<MyuserDTO> getRecordsByAddress(String address) {
+        Query query = em.createNamedQuery("Myuser.findByAddress").setParameter("address", address);
+        ArrayList<Myuser> daoList = (ArrayList<Myuser>)query.getResultList();
+        
+        ArrayList<MyuserDTO> dtoList = new ArrayList<MyuserDTO>();
+        for (Myuser myuser : daoList){
+            dtoList.add(myDAO2DTO(myuser));
+        }
+        
+        return dtoList;
     }
     
     private Myuser myDTO2DAO(MyuserDTO myuserDTO) {
@@ -67,5 +116,17 @@ public class MyuserFacade implements MyuserFacadeRemote {
         myuser.setSecqn(myuserDTO.getSecQn());
         myuser.setSecans(myuserDTO.getSecAns());
         return myuser;
+    }
+    private MyuserDTO myDAO2DTO(Myuser myuser){
+        return new MyuserDTO(
+            myuser.getUserid(), 
+            myuser.getName(), 
+            myuser.getPassword(), 
+            myuser.getEmail(), 
+            myuser.getPhone(), 
+            myuser.getAddress(), 
+            myuser.getSecqn(), 
+            myuser.getSecans()
+        );
     }
 }
