@@ -5,6 +5,7 @@
 package edjee;
 
 import entity.MyuserDTO;
+import java.util.ArrayList;
 import session.MyuserFacadeRemote;
 
 /**
@@ -17,36 +18,34 @@ public class MyuserAppClient {
     private static MyuserFacadeRemote myuserFacade;
 
     public static void main(String[] args) {
-        MyuserAppClient client = new MyuserAppClient();
-// assuming inputs from keyboard or any GUI
+        // 0. Test creation of user
         MyuserDTO myuserDTO = new MyuserDTO("000001", "Peter Smith", "123456",
                 "psmith@swin.edu.au", "9876543210", "Swinburne EN510f",
                 "What is my name?", "Peter");
         boolean result = myuserFacade.createRecord(myuserDTO);
-        client.showCreateResult(result, myuserDTO);
-// assuming inputs from keyboard or any GUI
-        MyuserDTO myuserDTO2 = new MyuserDTO("000007", "David Lee", "654321",
-                "dlee@swin.edu.au", "0123456789", "Swinburne EN510g",
-                "What is my name?", "David");
-        result = myuserFacade.createRecord(myuserDTO2);
-        client.showCreateResult(result, myuserDTO2);
+        showCreateResult(result, myuserDTO);
         
         // 1. Test getRecord
-        MyuserDTO myuserDTO2dup = myuserFacade.getRecord(myuserDTO2.getUserid());
-        showGetResult(myuserDTO2.getUserid(),myuserDTO2dup);
+        MyuserDTO myuserDTO2Refetched = myuserFacade.getRecord(myuserDTO.getUserid());
+        showGetResult(myuserDTO.getUserid(),myuserDTO2Refetched);
         
         // 2. Test updateRecord
-        MyuserDTO myuserDTO2updated = new MyuserDTO("000006", "David Lee UPDATED", "654321",
-                "dlee@swin.edu.au", "0123456789", "Swinburne EN510g",
-                "What is my name?", "David"); // need to instantiate a new DTO as they are read only, cannot modify
+        MyuserDTO myuserDTO2updated = new MyuserDTO("000001", "Peter Smith UPDATED", "123456",
+                "psmith@swin.edu.au", "9876543210", "Swinburne EN510f",
+                "What is my name?", "Peter"); // need to instantiate a new DTO as they are read only, cannot modify
+        myuserFacade.updateRecord(myuserDTO2updated);
         MyuserDTO myuserDTO2updatedRefetched = myuserFacade.getRecord(myuserDTO2updated.getUserid());
-        showUpdateResult(myuserDTO2updated,myuserDTO2updatedRefetched);
+        showUpdateResult(myuserDTO2Refetched,myuserDTO2updatedRefetched);
         
-        // 3. Test deleteRecord
+        // 3. Test getRecordsByAddress
+        String addressLookup = "Swinburne EN510f";
+        ArrayList<MyuserDTO> addressRecords = myuserFacade.getRecordsByAddress(addressLookup);
+        showAddressLookupResult(addressLookup,addressRecords);
+        
+        // 4. Test deleteRecord
         String userIdToDelete = myuserDTO2updated.getUserid();
         boolean deletedResult = myuserFacade.deleteRecord(userIdToDelete);
-        showDeleteResult(userIdToDelete,deletedResult);
-        
+        showDeleteResult(userIdToDelete,deletedResult);   
     }
     
     public static void showCreateResult(boolean result, MyuserDTO myuserDTO) {
@@ -90,5 +89,9 @@ public class MyuserAppClient {
             System.out.println("Record with primary key " + userid
                     + " could not be deleted from the database table.");
         }
+    }
+    public static void showAddressLookupResult(String address,ArrayList<MyuserDTO> result){
+        // assums the name was updated
+        System.out.println("Found " + result.size() + " records with address " + address);
     }
 }

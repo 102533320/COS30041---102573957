@@ -9,7 +9,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import entity.MyuserDTO;
 import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Query;
+import javax.resource.cci.ResultSet;
 
 /**
  *
@@ -81,7 +83,7 @@ public class MyuserFacade implements MyuserFacadeRemote {
     @Override
     public boolean deleteRecord(String userId) {
         MyuserDTO myuserDTO = getRecord(userId);
-        if (myuserDTO != null) return false;
+        if (myuserDTO == null) return false;
         
         Myuser myuser = myDTO2DAO(myuserDTO);
         try {
@@ -95,12 +97,9 @@ public class MyuserFacade implements MyuserFacadeRemote {
     @Override
     public ArrayList<MyuserDTO> getRecordsByAddress(String address) {
         Query query = em.createNamedQuery("Myuser.findByAddress").setParameter("address", address);
-        ArrayList<Myuser> daoList = (ArrayList<Myuser>)query.getResultList();
+        List<Myuser> daoList = query.getResultList();
         
-        ArrayList<MyuserDTO> dtoList = new ArrayList<>();
-        daoList.forEach(myuser -> {
-            dtoList.add(myDAO2DTO(myuser));
-        });
+        ArrayList<MyuserDTO> dtoList = myDAOList2DTOArrayList(daoList);
         
         return dtoList;
     }
@@ -128,5 +127,12 @@ public class MyuserFacade implements MyuserFacadeRemote {
             myuser.getSecqn(), 
             myuser.getSecans()
         );
+    }
+    private ArrayList<MyuserDTO> myDAOList2DTOArrayList(List<Myuser> myusers){
+        ArrayList<MyuserDTO> dtoList = new ArrayList<MyuserDTO>();
+        myusers.forEach(myuser -> {
+            dtoList.add(myDAO2DTO(myuser));
+        });
+        return dtoList;
     }
 }
