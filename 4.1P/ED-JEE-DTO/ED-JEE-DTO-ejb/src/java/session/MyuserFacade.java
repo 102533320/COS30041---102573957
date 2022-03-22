@@ -98,9 +98,9 @@ public class MyuserFacade implements MyuserFacadeRemote {
         ArrayList<Myuser> daoList = (ArrayList<Myuser>)query.getResultList();
         
         ArrayList<MyuserDTO> dtoList = new ArrayList<>();
-        for (Myuser myuser : daoList){
+        daoList.forEach(myuser -> {
             dtoList.add(myDAO2DTO(myuser));
-        }
+        });
         
         return dtoList;
     }
