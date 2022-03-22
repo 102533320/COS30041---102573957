@@ -97,7 +97,7 @@ public class MyuserFacade implements MyuserFacadeRemote {
         Query query = em.createNamedQuery("Myuser.findByAddress").setParameter("address", address);
         ArrayList<Myuser> daoList = (ArrayList<Myuser>)query.getResultList();
         
-        ArrayList<MyuserDTO> dtoList = new ArrayList<MyuserDTO>();
+        ArrayList<MyuserDTO> dtoList = new ArrayList<>();
         for (Myuser myuser : daoList){
             dtoList.add(myDAO2DTO(myuser));
         }
