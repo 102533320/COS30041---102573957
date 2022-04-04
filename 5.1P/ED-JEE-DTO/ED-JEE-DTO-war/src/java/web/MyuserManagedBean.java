@@ -168,7 +168,7 @@ public class MyuserManagedBean {
                 setPassword(myuser.getPassword());
                 setcPassword(myuser.getPassword());
                 setEmail(myuser.getEmail());
-                setPhone(myuser.getEmail());
+                setPhone(myuser.getPhone());
                 setAddress(myuser.getAddress());
                 setSecQn(myuser.getSecQn());
                 setSecAns(myuser.getSecAns());
