@@ -57,7 +57,7 @@
             <to-view-id>/editUserSuccess.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
-            <from-action>#{myuserManagedBean.lookupUser}</from-action>
+            <from-action>#{myuserManagedBean.editUser}</from-action>
             <from-outcome>failure</from-outcome>
             <to-view-id>/editUserFailure.xhtml</to-view-id>
         </navigation-case>
