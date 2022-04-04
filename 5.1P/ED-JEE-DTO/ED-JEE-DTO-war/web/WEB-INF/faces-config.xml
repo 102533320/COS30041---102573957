@@ -26,7 +26,7 @@
     <navigation-rule>
         <from-view-id>/addUser.xhtml</from-view-id>
         <navigation-case>
-            <from-action>“#{myuserManagedBean.addUser}</from-action>
+            <from-action>#{myuserManagedBean.addUser}</from-action>
             <from-outcome>success</from-outcome>
             <to-view-id>/addUserSuccess.xhtml</to-view-id>
         </navigation-case>
@@ -34,6 +34,32 @@
             <from-action>#{myuserManagedBean.addUser}</from-action>
             <from-outcome>failure</from-outcome>
             <to-view-id>/addUserFailure.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/lookupUser.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{myuserManagedBean.lookupUser}</from-action>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/editUser.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-action>#{myuserManagedBean.lookupUser}</from-action>
+            <from-outcome>failure</from-outcome>
+            <to-view-id>/lookupUserFailure.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/editUser.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{myuserManagedBean.editUser}</from-action>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/editUserSuccess.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-action>#{myuserManagedBean.lookupUser}</from-action>
+            <from-outcome>failure</from-outcome>
+            <to-view-id>/editUserFailure.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 </faces-config>
