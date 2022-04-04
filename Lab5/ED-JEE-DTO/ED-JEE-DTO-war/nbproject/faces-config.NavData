@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scene Scope="Project" version="2">
+    <Scope Scope="Faces Configuration Only"/>
+    <Scope Scope="Project">
+        <Node id="index.html" x="187" y="108" zoom="true"/>
+        <Node id="undercon.html" x="729" y="189" zoom="true"/>
+        <Node id="addUser.xhtml" x="412" y="190" zoom="false"/>
+        <Node id="addUserFailure.xhtml" x="696" y="286" zoom="true"/>
+        <Node id="addUserSuccess.xhtml" x="685" y="84" zoom="true"/>
+        <Node id="mainmenu.xhtml" x="182" y="164" zoom="true"/>
+    </Scope>
+    <Scope Scope="All Faces Configurations"/>
+</Scene>
