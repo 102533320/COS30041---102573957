@@ -151,7 +151,10 @@ public class MyuserManagedBean {
                 result = "success";
                 
                 // send an email informing the information has been updated
-                EmailSender.SendEmail(email,"Your information has been changed.","In case this is not done by you, please contact us immediately at xyz@swin.com");
+                EmailSender.SendEmail(email,
+                        "Your information has been changed.",
+                        "In case this is not done by you, please contact us immediately at xyz@swin.com"
+                );
             }
         }
         return result;
