@@ -6,7 +6,6 @@
             <name>ED-Secure-ejb</name>
             <minimum-ant-version>1.6.5</minimum-ant-version>
             <included-library dirs="200">reference.ED-Secure-RI.jar</included-library>
-            <included-library dirs="200">libs.javaee-api-6.0_2.classpath</included-library>
             <included-library dirs="200">libs.javaee-api-7.0_2.classpath</included-library>
             <source-roots>
                 <root id="src.dir"/>
