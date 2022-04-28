@@ -8,8 +8,10 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import entity.Employee;
 import entity.EmployeeDTO;
+import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.RolesAllowed;
 
-
+@DeclareRoles({"ED-APP-ADMIN"})
 @Stateless
 public class EmployeeManagement implements EmployeeManagementRemote {
 
@@ -70,6 +72,7 @@ public class EmployeeManagement implements EmployeeManagementRemote {
      * @return true if the employee is in the system, false otherwise
      */
     @Override
+    @RolesAllowed({"ED-APP-ADMIN"})
     public boolean hasEmployee(String empId) {
         return employeeFacade.hasEmployee(empId);
     }
@@ -81,6 +84,7 @@ public class EmployeeManagement implements EmployeeManagementRemote {
      * @return true if addition is successful, false otherwise
      */
     @Override
+    @RolesAllowed({"ED-APP-ADMIN"})
     public boolean addEmployee(EmployeeDTO empDTO) {
 
         if (empDTO == null) {
@@ -109,6 +113,7 @@ public class EmployeeManagement implements EmployeeManagementRemote {
      * @return true if update is successful, false otherwise
      */
     @Override
+    @RolesAllowed({"ED-APP-ADMIN"})
     public boolean updateEmpolyeeDetails(EmployeeDTO empDTO) {
         // check employee exist?
         if (!hasEmployee(empDTO.getEmpid())) {
@@ -130,6 +135,7 @@ public class EmployeeManagement implements EmployeeManagementRemote {
      * @return true if update successful, false otherwise
      */
     @Override
+    @RolesAllowed({"ED-APP-ADMIN"})
     public boolean updateEmployeePassword(String empId, String newPassword) {
         return employeeFacade.updatePassword(empId, newPassword);
     }
@@ -142,6 +148,7 @@ public class EmployeeManagement implements EmployeeManagementRemote {
      * otherwise
      */
     @Override
+    @RolesAllowed({"ED-APP-ADMIN"})
     public EmployeeDTO getEmployeeDetails(String empId) {
         // get the employee
         Employee employee = employeeFacade.find(empId);
@@ -167,6 +174,7 @@ public class EmployeeManagement implements EmployeeManagementRemote {
      * @return true if it can be set to inactive and have set to inactive; false otherwise
      */
     @Override
+    @RolesAllowed({"ED-APP-ADMIN"})
     public boolean deleteEmployee(String empId) {
         return employeeFacade.deleteEmployee(empId);
     }
@@ -180,6 +188,7 @@ public class EmployeeManagement implements EmployeeManagementRemote {
      * @return true if the employee record has been physically removed from the database, false otherwise 
      */
     @Override
+    @RolesAllowed({"ED-APP-ADMIN"})
     public boolean removeEmployee(String empId) {
         return employeeFacade.removeEmployee(empId);
     }
