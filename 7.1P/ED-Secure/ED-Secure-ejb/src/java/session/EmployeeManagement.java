@@ -10,6 +10,8 @@ import entity.Employee;
 import entity.EmployeeDTO;
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.RolesAllowed;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 @DeclareRoles({"ED-APP-ADMIN"})
 @Stateless
@@ -17,6 +19,21 @@ public class EmployeeManagement implements EmployeeManagementRemote {
 
     @EJB
     private EmployeeFacadeLocal employeeFacade;
+
+    private boolean hasPermissionOver(String empId) {
+        // terminate the session by invalidating the session context
+        FacesContext fc = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) fc.getExternalContext().getRequest();
+        if (request.isUserInRole("ED-APP-ADMIN")){
+            return true;
+        } 
+        else if (request.isUserInRole("ED-APP-USERS")){
+            
+        }
+        return false;
+    }
+    
+    
 
     private Employee employeeDTO2Entity(EmployeeDTO empDTO) {
         if (empDTO == null) {
@@ -40,13 +57,13 @@ public class EmployeeManagement implements EmployeeManagementRemote {
 
         return employee;
     }
-    
+
     private EmployeeDTO employeeEntity2DTO(Employee employee) {
         if (employee == null) {
             // just in case
             return null;
         }
-        
+
         EmployeeDTO empDTO = new EmployeeDTO(
                 employee.getEmpid(),
                 employee.getName(),
@@ -59,7 +76,7 @@ public class EmployeeManagement implements EmployeeManagementRemote {
                 employee.getSalary(),
                 employee.isActive()
         );
-        
+
         return empDTO;
     }
 
@@ -72,7 +89,7 @@ public class EmployeeManagement implements EmployeeManagementRemote {
      * @return true if the employee is in the system, false otherwise
      */
     @Override
-    @RolesAllowed({"ED-APP-ADMIN"})
+    @RolesAllowed({"ED-APP-ADMIN", "ED-APP-USERS"})
     public boolean hasEmployee(String empId) {
         return employeeFacade.hasEmployee(empId);
     }
@@ -91,7 +108,6 @@ public class EmployeeManagement implements EmployeeManagementRemote {
             // just in case
             return false;
         }
-
 
         // check employee exist?
         if (hasEmployee(empDTO.getEmpid())) {
@@ -113,7 +129,7 @@ public class EmployeeManagement implements EmployeeManagementRemote {
      * @return true if update is successful, false otherwise
      */
     @Override
-    @RolesAllowed({"ED-APP-ADMIN"})
+    @RolesAllowed({"ED-APP-ADMIN", "ED-APP-USERS"})
     public boolean updateEmpolyeeDetails(EmployeeDTO empDTO) {
         // check employee exist?
         if (!hasEmployee(empDTO.getEmpid())) {
@@ -148,7 +164,7 @@ public class EmployeeManagement implements EmployeeManagementRemote {
      * otherwise
      */
     @Override
-    @RolesAllowed({"ED-APP-ADMIN"})
+    @RolesAllowed({"ED-APP-ADMIN", "ED-APP-USERS"})
     public EmployeeDTO getEmployeeDetails(String empId) {
         // get the employee
         Employee employee = employeeFacade.find(empId);
@@ -162,30 +178,32 @@ public class EmployeeManagement implements EmployeeManagementRemote {
                     employee.getName(), employee.getPhone(), employee.getAddress(),
                     employee.getEmail(), employee.getPassword(), employee.getAppGroup(),
                     employee.getBnkAccId(), employee.getSalary(), employee.isActive());
-            
+
             return empDTO;
         }
     }
 
     /**
      * set the employee's active status to false
-     * 
+     *
      * @param empId
-     * @return true if it can be set to inactive and have set to inactive; false otherwise
+     * @return true if it can be set to inactive and have set to inactive; false
+     * otherwise
      */
     @Override
     @RolesAllowed({"ED-APP-ADMIN"})
     public boolean deleteEmployee(String empId) {
         return employeeFacade.deleteEmployee(empId);
     }
-    
+
     /**
      * physically remove an employee's record from database
-     * 
+     *
      * This is for lab purposes - never ever do this in real world applications
-     * 
+     *
      * @param empId
-     * @return true if the employee record has been physically removed from the database, false otherwise 
+     * @return true if the employee record has been physically removed from the
+     * database, false otherwise
      */
     @Override
     @RolesAllowed({"ED-APP-ADMIN"})
