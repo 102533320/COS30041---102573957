@@ -10,8 +10,6 @@ import entity.Employee;
 import entity.EmployeeDTO;
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.RolesAllowed;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
 
 @DeclareRoles({"ED-APP-ADMIN"})
 @Stateless
@@ -19,21 +17,6 @@ public class EmployeeManagement implements EmployeeManagementRemote {
 
     @EJB
     private EmployeeFacadeLocal employeeFacade;
-
-    private boolean hasPermissionOver(String empId) {
-        // terminate the session by invalidating the session context
-        FacesContext fc = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) fc.getExternalContext().getRequest();
-        if (request.isUserInRole("ED-APP-ADMIN")){
-            return true;
-        } 
-        else if (request.isUserInRole("ED-APP-USERS")){
-            
-        }
-        return false;
-    }
-    
-    
 
     private Employee employeeDTO2Entity(EmployeeDTO empDTO) {
         if (empDTO == null) {
@@ -151,7 +134,7 @@ public class EmployeeManagement implements EmployeeManagementRemote {
      * @return true if update successful, false otherwise
      */
     @Override
-    @RolesAllowed({"ED-APP-ADMIN"})
+    @RolesAllowed({"ED-APP-ADMIN", "ED-APP-USERS"})
     public boolean updateEmployeePassword(String empId, String newPassword) {
         return employeeFacade.updatePassword(empId, newPassword);
     }

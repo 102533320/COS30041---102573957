@@ -17,7 +17,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import session.EmployeeManagementRemote;
 import entity.EmployeeDTO;
-
+import javax.servlet.http.HttpServletRequest;
 
 @Named(value = "myEmpManagedBean")
 @ConversationScoped
@@ -173,6 +173,25 @@ public class MyEmpManagedBean implements Serializable {
         conversation.end();
     }
 
+    private boolean hasPermissionOver() {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) fc.getExternalContext().getRequest();
+        String user = null;
+        try {
+            user = request.getRemoteUser();
+        } catch (Exception e) {
+        }
+        if (request.isUserInRole("ED-APP-ADMIN")) { // has permission over everyone
+            return true;
+        }
+        if (request.isUserInRole("ED-APP-USERS")) { // has permission over themselves
+            if (empId.equals(user)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public String addEmployee() {
 
         // check empId is null
@@ -201,7 +220,6 @@ public class MyEmpManagedBean implements Serializable {
         if (!employeeManagement.hasEmployee(empId)) {
             return "failure";
         }
-
         // note the startConversation of the conversation
         startConversation();
 
@@ -213,6 +231,10 @@ public class MyEmpManagedBean implements Serializable {
         // check empId is null
         if (isNull(empId)) {
             return "debug";
+        }
+        
+        if (!hasPermissionOver()){
+            return "nopermission";
         }
 
         EmployeeDTO empDTO = new EmployeeDTO(empId, name, phone,
@@ -295,6 +317,10 @@ public class MyEmpManagedBean implements Serializable {
         if (isNull(empId)) {
             return "debug";
         }
+        
+        if (!hasPermissionOver()){
+            return "nopermission";
+        }
 
         // newPassword and confirmPassword are the same - checked by the validator during input to JSF form
         boolean result = employeeManagement.updateEmployeePassword(empId, newPassword);
@@ -312,6 +338,10 @@ public class MyEmpManagedBean implements Serializable {
         // check empId is null
         if (isNull(empId)) {
             return "debug";
+        }
+        
+        if (!hasPermissionOver()){
+            return "nopermission";
         }
 
         boolean result = employeeManagement.deleteEmployee(empId);
@@ -341,6 +371,10 @@ public class MyEmpManagedBean implements Serializable {
 
         if (isNull(empId) || conversation == null) {
             return "debug";
+        }
+        
+        if (!hasPermissionOver()){
+            return "nopermission";
         }
 
         EmployeeDTO e = employeeManagement.getEmployeeDetails(empId);

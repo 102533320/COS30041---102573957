@@ -51,7 +51,7 @@
     </security-constraint>
     <login-config>
         <auth-method>FORM</auth-method>
-        <realm-name>file</realm-name>
+        <realm-name>jdbcRealm</realm-name>
         <form-login-config>
             <form-login-page>/faces/login.xhtml</form-login-page>
             <form-error-page>/faces/retryLogin</form-error-page>
