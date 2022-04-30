@@ -8,6 +8,10 @@ import email.EmailSender;
 import entity.MyuserDTO;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import session.MyuserFacadeRemote;
 
 /**
@@ -149,7 +153,7 @@ public class MyuserManagedBean {
                     password, email, phone, address, secQn, secAns);
             if (myuserFacade.updateRecord(myuserDTO)) {
                 result = "success";
-                
+
                 // send an email informing the information has been updated
                 EmailSender.SendEmail(email,
                         "Your information has been changed.",
@@ -175,7 +179,7 @@ public class MyuserManagedBean {
                 setAddress(myuser.getAddress());
                 setSecQn(myuser.getSecQn());
                 setSecAns(myuser.getSecAns());
-                
+
                 result = "success";
             }
         }
@@ -218,5 +222,4 @@ public class MyuserManagedBean {
     public boolean isValidSecAns(String secAns) {
         return (secAns != null);
     }
-
 }
