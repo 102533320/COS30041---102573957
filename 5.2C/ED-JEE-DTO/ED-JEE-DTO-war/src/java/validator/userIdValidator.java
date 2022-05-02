@@ -21,7 +21,9 @@ public class userIdValidator implements Validator {
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-        if (!RegexHelper.HasMatch((String)value, "[A-Za-z0-9]{6}")) throw new ValidatorException(new FacesMessage("Userid must be exactly six characters long"));
+        if (((String) value).length() != 6) {
+            throw new ValidatorException(new FacesMessage("Userid must be exactly six characters long"));
+        }
     }
 
 }

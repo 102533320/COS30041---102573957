@@ -21,12 +21,22 @@ public class PasswordValidator implements Validator {
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-        if (!RegexHelper.HasMatch((String)value, "[0-9]")) throw new ValidatorException(new FacesMessage("Password Must Include a Number"));
-        if (!RegexHelper.HasMatch((String)value, "[a-z]")) throw new ValidatorException(new FacesMessage("Password Must Include a Lowercase Letter"));
-        if (!RegexHelper.HasMatch((String)value, "[A-Z]")) throw new ValidatorException(new FacesMessage("Password Must Include an Uppercase Letter"));
+        String password = (String) value;
+        if (!RegexHelper.HasMatch(password, "[0-9]")) {
+            throw new ValidatorException(new FacesMessage("Password Must Include a Number"));
+        }
+        if (!RegexHelper.HasMatch(password, "[a-z]")) {
+            throw new ValidatorException(new FacesMessage("Password Must Include a Lowercase Letter"));
+        }
+        if (!RegexHelper.HasMatch(password, "[A-Z]")) {
+            throw new ValidatorException(new FacesMessage("Password Must Include an Uppercase Letter"));
+        }
+
+        UIInput passwordMatchInput = (UIInput) ComponentHelper.findComponent("password");
+        String passwordMatchValue = (String) ComponentHelper.getComponentValue(passwordMatchInput);
         
-        UIInput passwordMatchInput = (UIInput)component.getParent().findComponent("password");
-        String passwordMatchValue = (String) passwordMatchInput.getSubmittedValue();
-        if (!((String)value).equals(passwordMatchValue)) throw new ValidatorException(new FacesMessage("Passwords must match"));
+        if (!password.equals(passwordMatchValue)) {
+            throw new ValidatorException(new FacesMessage("Passwords must match"));
+        }
     }
 }
